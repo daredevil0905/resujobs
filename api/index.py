@@ -15,8 +15,8 @@ def post_resume():
     temp_file = tempfile.NamedTemporaryFile(delete=False, dir=temp_dir)
     try:
       file.save(temp_file.name)
-      resume_data = read_pdf(temp_file.name)
-      return { "message": resume_data }
+      data = read_pdf(temp_file.name)
+      return { "message": data }
     finally:
       temp_file.close()
       os.remove(temp_file.name)

@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .skill-card {
+    @apply p-10 m-5 bg-slate-300 text-black font-semibold text-xl
+  }
+
+  .years-of-experience-card {
+    @apply my-10 flex justify-start items-center p-10 text-black text-2xl bg-white border-2 border-blue-300
+  }
+}

@@ -1,5 +1,5 @@
 from PyPDF2 import PdfReader
-from llm import get_skills
+from llm import get_data
 
 def read_pdf(file_path):
   resume_data = None
@@ -8,8 +8,8 @@ def read_pdf(file_path):
     resume_data = ''
     for page in reader.pages:
       resume_data += page.extract_text()
-  skills = get_skills(resume_data)
-  return skills  
+  data = get_data(resume_data)
+  return data  
   
 
     

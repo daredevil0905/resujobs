@@ -2,9 +2,19 @@
 
 import { FormEvent, useState } from "react"
 
+function getSkillLevel(yearsOfExperience: number) {
+  if (yearsOfExperience <= 1) {
+    return 'junior'
+  } else if (yearsOfExperience > 1 && yearsOfExperience <= 3) {
+    return 'mid'
+  } else {
+    return 'senior'
+  }
+}
+
 export default function FileUploadForm() {
   const [file, setFile] = useState<File | null>(null)
-  const [resumeData, setResumeData] = useState('')
+  const [jobs, setJobs] = useState([])
 
   const handleFormSubmit = async (event: FormEvent) => {
     event.preventDefault()
@@ -24,7 +34,17 @@ export default function FileUploadForm() {
   
         const data = await response.json()
 
-        setResumeData(data.message)
+        const skills = data.message.skills.replace(/\s/g, "")
+        const skillLevel = getSkillLevel(data.message.yearsOfExperience)
+
+        const jobs = await fetch(`https://api.crackeddevs.com/api/get-jobs?technologies=${skills}&skill_levels=${skillLevel}`, {
+          method: 'GET',
+          headers: {
+            'api-key': '20a21438-fb18-441b-9c58-6bd18d8da0df',
+            'Content-Type': 'application/json'
+          }
+        })
+        console.log(jobs)
       } catch (e) {
         console.log(`Error: ${e}`)
       }
@@ -44,8 +64,8 @@ export default function FileUploadForm() {
         />
         <button type="submit">Submit</button>
       </form>
-      <div className="mt-10">
-        {resumeData}
+      <div className="mt-10 flex flex-wrap gap-5">
+        
       </div>
     </>
   )
