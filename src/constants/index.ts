@@ -1,5 +1,5 @@
 export const tech = [
-  'html', 'css', 'react', 'vue', 'angular', 'node', 'python', 'typescript', 'nextjs', 'javascript', 'java', 'csharp', 'php', 'go', 'rust', 'swift', 'kotlin', 'sql', 'mongodb', 'postgres', 'mysql', 'docker', 'kubernetes', 'aws', 'reactnative', 'flutter', 'django', 'spring', 'laravel', 'web3', 'graphql', 'solidity'
+  'html', 'css', 'react', 'vue', 'angular', 'node', 'python', 'typescript', 'nextjs', 'javascript', 'java', 'csharp', 'php', 'go', 'rust', 'swift', 'kotlin', 'sql', 'mongodb', 'postgres', 'mysql', 'docker', 'kubernetes', 'aws', 'reactnative', 'flutter', 'django', 'spring', 'laravel', 'web3', 'c++', 'graphql', 'solidity'
 ]
 
 export const techMap: Record<string, string> = {
@@ -18,5 +18,6 @@ export const techMap: Record<string, string> = {
   'c#': 'csharp',
   'golang': 'go',
   'postgresql': 'postgres',
-  'springboot': 'spring'
+  'springboot': 'spring',
+  'c': 'c++'
 }

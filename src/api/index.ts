@@ -1,6 +1,6 @@
 export async function jobAPI(technologies: string, skillLevel: string) {
   try {
-    const response = await fetch(`https://api.crackeddevs.com/api/get-jobs?technologies=${technologies}&skill_levels=${skillLevel}`, {
+    const response = await fetch(`https://api.crackeddevs.com/api/get-jobs?technologies=${encodeURIComponent(technologies)}&skill_levels=${encodeURIComponent(skillLevel)}`, {
       method: 'GET',
       headers: {
         'api-key': '<YOUR_API_KEY>',
