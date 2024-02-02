@@ -1,20 +1,13 @@
 "use client"
 
 import { FormEvent, useState } from "react"
-
-function getSkillLevel(yearsOfExperience: number) {
-  if (yearsOfExperience <= 1) {
-    return 'junior'
-  } else if (yearsOfExperience > 1 && yearsOfExperience <= 3) {
-    return 'mid'
-  } else {
-    return 'senior'
-  }
-}
+import { tech, techMap } from "../constants"
+import { getSkillLevel } from "../lib"
+import { jobAPI } from "../api"
 
 export default function FileUploadForm() {
   const [file, setFile] = useState<File | null>(null)
-  const [jobs, setJobs] = useState([])
+  const [jobs, setJobs] = useState<string[]>([])
 
   const handleFormSubmit = async (event: FormEvent) => {
     event.preventDefault()
@@ -34,17 +27,24 @@ export default function FileUploadForm() {
   
         const data = await response.json()
 
-        const skills = data.message.skills.replace(/\s/g, "")
+        const skills: string[] = data.message.skills.toLowerCase().replace(/\s/g, "").split(',')
+        let technologies = ''
+        for (const skill of skills) {
+          if (tech.includes(skill)) {
+            technologies += skill + ','
+          } else {
+            if (skill in techMap) {
+              technologies += techMap[skill] + ','
+            }
+          }
+        }
+
+        technologies = technologies.slice(0, -1)
+        
         const skillLevel = getSkillLevel(data.message.yearsOfExperience)
 
-        const jobs = await fetch(`https://api.crackeddevs.com/api/get-jobs?technologies=${skills}&skill_levels=${skillLevel}`, {
-          method: 'GET',
-          headers: {
-            'api-key': '20a21438-fb18-441b-9c58-6bd18d8da0df',
-            'Content-Type': 'application/json'
-          }
-        })
-        console.log(jobs)
+        const jobs = await jobAPI(technologies, skillLevel)        
+        setJobs(jobs.map((job: any) => job.title))
       } catch (e) {
         console.log(`Error: ${e}`)
       }
@@ -65,7 +65,9 @@ export default function FileUploadForm() {
         <button type="submit">Submit</button>
       </form>
       <div className="mt-10 flex flex-wrap gap-5">
-        
+        {jobs.map((job, index) => (
+          <h1 key={index}>{job}</h1>
+        ))}
       </div>
     </>
   )
